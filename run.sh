@@ -1,46 +1,35 @@
 #!/bin/bash
 
-# -------------------------------
-# Step 0: Go to script directory
-# -------------------------------
 cd "$(dirname "$0")"
 
-# -------------------------------
-# Step 1: Check for sudo/admin rights
-# -------------------------------
+# Request admin privileges
 if [ "$EUID" -ne 0 ]; then
   echo "Requesting administrator privileges..."
   exec sudo "$0" "$@"
   exit
 fi
 
-# -------------------------------
-# Step 2: Check for Python 3
-# -------------------------------
-if ! command -v python3 &> /dev/null; then
-    echo "Python3 not found. Installing Python 3.10..."
-    sudo apt update
-    sudo apt install -y python3.10 python3.10-venv python3-pip
-else
-    echo "Python3 found: $(python3 --version)"
-fi
+# Check and install Python 3.12 + venv + pip
+echo "Checking Python installation..."
+sudo apt update
+sudo apt install -y python3.12 python3.12-venv python3.12-full python3.12-distutils python3.12-dev tk
 
-# -------------------------------
-# Step 3: Create venv if needed
-# -------------------------------
+# Create venv if not present
 if [ ! -d "venv" ]; then
     echo "Creating virtual environment..."
-    python3 -m venv venv
+    python3.12 -m venv venv
 fi
 
-# -------------------------------
-# Step 4: Activate and install dependencies
-# -------------------------------
-source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+# Ensure pip is installed in the venv
+echo "Ensuring pip inside virtual environment..."
+./venv/bin/python -m ensurepip --upgrade
+./venv/bin/python -m pip install --upgrade pip
 
-# -------------------------------
-# Step 5: Run the Python app
-# -------------------------------
-python main.py
+# Install dependencies
+echo "Installing Python packages..."
+./venv/bin/pip install -r requirements.txt --break-system-packages
+
+# Launch the app
+echo "Launching the Document Search Tool..."
+./venv/bin/python main.py
+
