@@ -63,7 +63,7 @@ If you're not on Windows or Linux and want to run manually:
 
 document-search-tool/
 ├── main.py               # Main GUI logic
-├── search\_utils.py      # File reading and keyword search logic
+├── search_utils.py      # File reading and keyword search logic
 ├── run.bat               # (Windows) auto-run script
 ├── run.sh                # (Linux) auto-run script
 ├── requirements.txt      # Python dependencies
