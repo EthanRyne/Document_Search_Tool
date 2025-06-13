@@ -19,6 +19,10 @@ A lightweight GUI application built with Python and Tkinter that allows you to s
 
 ---
 
+![Screenshot of GUI](demo.png)
+
+---
+
 ## 🚀 How to Run (Windows Users)
 
 Just double-click the `run.bat` file — it will:
